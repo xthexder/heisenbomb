@@ -8,9 +8,24 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 }
 
 #game .tile {
-    width: 30px;
-    height: 30px;
+    width: 22px;
+    height: 22px;
     position: absolute;
 
-    border: 1px solid #000000;
+    background-color: #BDBDBD;
+    padding: 3px;
+    border: 1px inset #BDBDBD;
+    text-align: center;
+    line-height: 22px;
+    font-weight: bold;
+}
+
+#game .tile.outset {
+    border: 4px outset #BDBDBD;
+    padding: 0;
+}
+
+#game .tile.outset:active {
+    padding: 3px;
+    border: 1px inset #BDBDBD;
 }

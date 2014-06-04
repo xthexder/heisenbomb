@@ -53,16 +53,15 @@ function eachNeighbour(tilei, callback) {
 
 function renderEnter(tiles) {
   var tile = tiles.append("div")
-    .attr("class", "tile")
+    .attr("class", "tile outset")
     .style("left", function(d, i) { return (i % 30) * 30 + "px"; })
     .style("top", function(d, i) { return Math.floor(i / 30) * 30 + "px"; })
-    .style("background-color", function(d) { return d == -1 ? "#000000" : "#AAAAAA"; })
     .on("click", clickMine);
 }
 
 function renderUpdate(tile) {
   tile.data(gvars.board)
-    .style("background-color", function(d) { return d == -1 ? "#000000" : "#AAAAAA"; })
+    .attr("class", function(d) { return d == -1 ? "tile outset" : "tile"; })
     .html(function(d) { return d > 0 ? d : ""; });
 }
 
