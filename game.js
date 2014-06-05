@@ -170,6 +170,54 @@ function openTile(tilei) {
               safeTile(i);
             }
           });
+        } else {
+          var x = gvars.edges[j] % 30;
+          var y = Math.floor(gvars.edges[j] / 30);
+          eachNeighbour(gvars.edges[j], function(i) {
+            if (gvars.board[i] > 0) {
+              var neighbourMines = 0;
+              var neighbourUnknowns = 0;
+              var neighbourCount = 0;
+              eachNeighbour(i, function(k) {
+                var x2 = k % 30;
+                var y2 = Math.floor(k / 30);
+                if (gvars.board[k] === -2) {
+                  neighbourMines++;
+                } else if (gvars.board[k] === -1) {
+                  if (Math.abs(x - x2) <= 1 && Math.abs(y - y2) <= 1) neighbourCount++;
+                  neighbourUnknowns++;
+                }
+              });
+              if (unknownCount <= neighbourCount) return;
+              var x1 = i % 30;
+              var y1 = Math.floor(i / 30);
+              if (neighbourCount === neighbourUnknowns && gvars.board[i] - neighbourMines === gvars.board[gvars.edges[j]] - mineCount) {
+                changes = true;
+                eachNeighbour(gvars.edges[j], function(k) {
+                  if (gvars.board[k] === -1) {
+                    var x2 = k % 30;
+                    var y2 = Math.floor(k / 30);
+                    if (Math.abs(x1 - x2) > 1 || Math.abs(y1 - y2) > 1) {
+                      gvars.board[k] = 9;
+                      safeTile(k);
+                    }
+                  }
+                });
+              } else if ((gvars.board[gvars.edges[j]] - mineCount) - (gvars.board[i] - neighbourMines) === unknownCount - neighbourCount) {
+                changes = true;
+                eachNeighbour(gvars.edges[j], function(k) {
+                  if (gvars.board[k] === -1) {
+                    var x2 = k % 30;
+                    var y2 = Math.floor(k / 30);
+                    if (Math.abs(x1 - x2) > 1 || Math.abs(y1 - y2) > 1) {
+                      gvars.board[k] = -2;
+                      mineTile(k);
+                    }
+                  }
+                });
+              }
+            }
+          });
         }
       }
     }
