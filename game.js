@@ -69,6 +69,7 @@ function floodFill(board, tilei, callback) {
 }
 
 function safeTile(tilei) {
+  if (480 - gvars.knownSafe <= gvars.rmines[tilei]) return;
   gvars.knownSafe++;
   var tmp = gvars.mines[gvars.rmines[tilei]];
   gvars.mines[gvars.rmines[tilei]] = gvars.mines[480 - gvars.knownSafe];
@@ -78,6 +79,7 @@ function safeTile(tilei) {
 }
 
 function mineTile(tilei) {
+  if (gvars.knownMines > gvars.rmines[tilei]) return;
   var tmp = gvars.mines[gvars.rmines[tilei]];
   gvars.mines[gvars.rmines[tilei]] = gvars.mines[gvars.knownMines];
   gvars.rmines[gvars.mines[gvars.knownMines]] = gvars.rmines[tilei];
